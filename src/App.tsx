@@ -1,0 +1,58 @@
+import React, { useState } from 'react';
+import { DashboardLayout } from './components/DashboardLayout';
+import { LiveChart } from './components/LiveChart';
+import { TechnicalIndicators } from './components/TechnicalIndicators';
+import { RiskCalculator } from './components/RiskCalculator';
+import { TradeJournal } from './components/TradeJournal';
+import { EconomicCalendar } from './components/EconomicCalendar';
+import { SignalAlerts } from './components/SignalAlerts';
+import { MarketOverview } from './components/MarketOverview';
+import { AILearning } from './components/AILearning';
+import { BrokerIntegration } from './components/BrokerIntegration';
+import { AssetSelector } from './components/AssetSelector';
+
+function App() {
+  const [selectedPair, setSelectedPair] = useState('EUR/USD');
+  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedAssets, setSelectedAssets] = useState(['EUR/USD', 'GBP/USD', 'USD/JPY']);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      <DashboardLayout 
+        selectedPair={selectedPair}
+        setSelectedPair={setSelectedPair}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      >
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+            <div className="bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-700">
+              <h3 className="text-lg font-semibold text-white mb-4">Watchlist</h3>
+              <AssetSelector 
+                selectedAssets={selectedAssets}
+                onAssetChange={setSelectedAssets}
+              />
+            </div>
+            <MarketOverview selectedPair={selectedPair} />
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              <div className="xl:col-span-2">
+                <LiveChart selectedPair={selectedPair} />
+              </div>
+              <div className="space-y-6">
+                <TechnicalIndicators selectedPair={selectedPair} />
+                <SignalAlerts />
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === 'calculator' && <RiskCalculator />}
+        {activeTab === 'journal' && <TradeJournal />}
+        {activeTab === 'calendar' && <EconomicCalendar />}
+        {activeTab === 'ai-learning' && <AILearning />}
+        {activeTab === 'broker-integration' && <BrokerIntegration />}
+      </DashboardLayout>
+    </div>
+  );
+}
+
+export default App;
