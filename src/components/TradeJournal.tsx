@@ -13,8 +13,8 @@ export function TradeJournal() {
       lotSize: 0.10,
       profit: 50,
       pips: 50,
-      strategy: 'EMA Crossover',
-      notes: 'Clean breakout above resistance. Good momentum.',
+      strategy: 'Smart Money Concepts',
+      notes: 'Order block respected, clean institutional flow. Liquidity grab followed by reversal.',
       source: 'manual',
       broker: null
     },
@@ -66,6 +66,25 @@ export function TradeJournal() {
     notes: ''
   });
 
+  // Available trading strategies including Smart Money
+  const tradingStrategies = [
+    'Smart Money Concepts',
+    'Order Block Trading',
+    'Liquidity Grab Strategy',
+    'Market Structure Analysis',
+    'Institutional Flow Trading',
+    'EMA Crossover',
+    'RSI Divergence',
+    'MACD Signal',
+    'Support & Resistance',
+    'Fibonacci Retracement',
+    'Bollinger Bands',
+    'Breakout Strategy',
+    'Scalping',
+    'Swing Trading',
+    'News Trading'
+  ];
+
   // Simulate connected brokers (this would come from BrokerIntegration component in real app)
   const connectedBrokers = [
     { id: 'mt4', name: 'MetaTrader 4', status: 'connected' },
@@ -87,7 +106,7 @@ export function TradeJournal() {
           entry: 1.0850 + (Math.random() - 0.5) * 0.02,
           exit: 1.0850 + (Math.random() - 0.5) * 0.02,
           lotSize: parseFloat((Math.random() * 0.5 + 0.05).toFixed(2)),
-          strategy: 'Auto-imported',
+          strategy: tradingStrategies[Math.floor(Math.random() * tradingStrategies.length)],
           notes: 'Automatically imported from broker',
           source: 'broker',
           broker: connectedBrokers[Math.floor(Math.random() * connectedBrokers.length)]?.name || 'MetaTrader 4'
@@ -385,13 +404,16 @@ export function TradeJournal() {
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-300 mb-2">Strategy</label>
-                <input
-                  type="text"
+                <select
                   value={newTrade.strategy}
                   onChange={(e) => setNewTrade({...newTrade, strategy: e.target.value})}
                   className="w-full bg-gray-600 text-white px-3 py-2 rounded-lg border border-gray-500 focus:border-blue-400 focus:outline-none"
-                  placeholder="e.g., EMA Crossover, RSI Divergence"
-                />
+                >
+                  <option value="">Select a strategy...</option>
+                  {tradingStrategies.map((strategy) => (
+                    <option key={strategy} value={strategy}>{strategy}</option>
+                  ))}
+                </select>
               </div>
               <div className="md:col-span-3">
                 <label className="block text-sm font-medium text-gray-300 mb-2">Notes</label>
