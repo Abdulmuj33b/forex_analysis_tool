@@ -129,7 +129,6 @@ export function SignalAlerts() {
             View Trading Signals
           </button>
         </div>
-        </button>
       </div>
     </div>
   );
