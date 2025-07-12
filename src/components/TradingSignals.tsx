@@ -116,7 +116,9 @@ export function TradingSignals({ selectedPair }: TradingSignalsProps) {
       strategy: signal.strategy,
       timestamp: new Date(),
       status: 'executed',
-      source: 'auto-trade'
+      source: 'auto-trade',
+      confidence: signal.confidence,
+      riskReward: signal.riskReward
     };
 
     setExecutedTrades(prev => [executedTrade, ...prev]);
@@ -125,6 +127,10 @@ export function TradingSignals({ selectedPair }: TradingSignalsProps) {
     setSignals(prev => prev.map(s => 
       s.id === signal.id ? { ...s, status: 'executed' as const } : s
     ));
+
+    // Send trade data to analytics for ML learning
+    // This would integrate with the TradeAnalytics component in a real application
+    console.log('Trade executed for ML learning:', executedTrade);
   };
 
   // Generate new signals periodically

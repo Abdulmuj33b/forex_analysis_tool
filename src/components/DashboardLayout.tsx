@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, Calculator, BookOpen, Calendar, BarChart3, Settings, Bell, Brain, Link, X, Target } from 'lucide-react';
+import { TrendingUp, Calculator, BookOpen, Calendar, BarChart3, Settings, Bell, Brain, Link, X, Target, PieChart } from 'lucide-react';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -60,6 +60,7 @@ export function DashboardLayout({
   const tabs = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
     { id: 'signals', label: 'Trading Signals', icon: Target },
+    { id: 'trade-analytics', label: 'Trade Analytics', icon: PieChart },
     { id: 'calculator', label: 'Risk Calculator', icon: Calculator },
     { id: 'journal', label: 'Trade Journal', icon: BookOpen },
     { id: 'calendar', label: 'Economic Calendar', icon: Calendar },

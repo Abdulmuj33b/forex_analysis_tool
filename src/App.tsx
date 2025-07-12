@@ -11,6 +11,7 @@ import { AILearning } from './components/AILearning';
 import { BrokerIntegration } from './components/BrokerIntegration';
 import { AssetSelector } from './components/AssetSelector';
 import { TradingSignals } from './components/TradingSignals';
+import { TradeAnalytics } from './components/TradeAnalytics';
 
 function App() {
   const [selectedPair, setSelectedPair] = useState('EUR/USD');
@@ -52,6 +53,7 @@ function App() {
         {activeTab === 'calendar' && <EconomicCalendar />}
         {activeTab === 'ai-learning' && <AILearning />}
         {activeTab === 'broker-integration' && <BrokerIntegration />}
+        {activeTab === 'trade-analytics' && <TradeAnalytics />}
       </DashboardLayout>
     </div>
   );

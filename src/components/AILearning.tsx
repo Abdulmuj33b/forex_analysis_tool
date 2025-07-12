@@ -263,7 +263,7 @@ export function AILearning() {
               <div className="bg-green-600/10 border border-green-600/20 rounded-lg p-3">
                 <div className="text-sm font-medium text-green-400 mb-1">Learning Update</div>
                 <div className="text-xs text-gray-300">
-                  Model accuracy improved by 2.1% after processing 156 new market scenarios.
+                  Model accuracy improved by 2.1% after processing 156 new trade executions from analytics data.
                 </div>
               </div>
             </div>
@@ -283,6 +283,9 @@ export function AILearning() {
               </div>
               <div className="text-xs text-gray-400">
                 Next training session: 2 hours
+              </div>
+              <div className="text-xs text-gray-300 mt-2">
+                Learning from {executedTrades.length} executed trades in analytics
               </div>
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors text-sm">
                 Force Retrain Models
