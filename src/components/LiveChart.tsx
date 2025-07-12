@@ -272,6 +272,9 @@ export function LiveChart({ selectedPair }: LiveChartProps) {
             )}
           </div>
         )}
+        <div className="text-xs text-gray-500">
+          Check Trading Signals tab for entry/exit recommendations
+        </div>
       </div>
 
       {/* Analysis Information Panel */}

@@ -121,8 +121,14 @@ export function SignalAlerts() {
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-700">
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-          View All Alerts
+        <div className="text-center">
+          <p className="text-sm text-gray-400 mb-2">
+            For detailed trading signals and auto-trade features
+          </p>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
+            View Trading Signals
+          </button>
+        </div>
         </button>
       </div>
     </div>

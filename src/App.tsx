@@ -10,6 +10,7 @@ import { MarketOverview } from './components/MarketOverview';
 import { AILearning } from './components/AILearning';
 import { BrokerIntegration } from './components/BrokerIntegration';
 import { AssetSelector } from './components/AssetSelector';
+import { TradingSignals } from './components/TradingSignals';
 
 function App() {
   const [selectedPair, setSelectedPair] = useState('EUR/USD');
@@ -45,6 +46,7 @@ function App() {
             </div>
           </div>
         )}
+        {activeTab === 'signals' && <TradingSignals selectedPair={selectedPair} />}
         {activeTab === 'calculator' && <RiskCalculator />}
         {activeTab === 'journal' && <TradeJournal />}
         {activeTab === 'calendar' && <EconomicCalendar />}
