@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, BarChart3, Brain, Target, DollarSign, Calendar, Filter, Download, Eye, Zap } from 'lucide-react';
+import { apiService } from '../services/api';
 
 interface Trade {
   id: string;
@@ -46,9 +47,39 @@ export function TradeAnalytics() {
     riskAssessment: 85.6
   });
 
-  // Generate sample trade data
+  // Load trade data from backend
   useEffect(() => {
-    const generateTrades = () => {
+    const loadTradeData = async () => {
+      try {
+        const response = await apiService.getRecentTrades(100);
+        const backendTrades = response.map((trade: any) => ({
+          id: trade.id,
+          timestamp: new Date(trade.timestamp),
+          pair: trade.pair,
+          type: trade.type,
+          entryPrice: trade.entry_price,
+          exitPrice: trade.exit_price,
+          lotSize: trade.lot_size,
+          pips: trade.pips || 0,
+          profit: trade.profit || 0,
+          strategy: trade.strategy,
+          confidence: trade.confidence || 70,
+          riskReward: trade.profit && trade.pips ? Math.abs(trade.profit / (trade.pips * trade.lot_size)) : 1.5,
+          duration: trade.duration || 60,
+          source: trade.source,
+          marketConditions: trade.market_conditions || {},
+          mlFeatures: trade.ml_features || {}
+        }));
+        
+        setTrades(backendTrades);
+      } catch (error) {
+        console.error('Error loading trade data:', error);
+        // Fallback to sample data if backend is not available
+        setTrades(generateSampleTrades());
+      }
+    };
+
+    const generateSampleTrades = () => {
       const strategies = [
         'Smart Money Order Block',
         'Liquidity Grab Reversal',

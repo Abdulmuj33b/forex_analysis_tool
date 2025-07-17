@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Brain, TrendingUp, TrendingDown, Target, AlertCircle, BarChart3, Zap } from 'lucide-react';
+import { apiService } from '../services/api';
 
 export function AILearning() {
   const [selectedModel, setSelectedModel] = useState('trend-prediction');
+  const [isConnectedToBackend, setIsConnectedToBackend] = useState(false);
   const [analysisResults, setAnalysisResults] = useState({
     trendPrediction: {
       direction: 'Bullish',
@@ -24,6 +26,32 @@ export function AILearning() {
     }
   });
 
+  // Check backend connection and load ML metrics
+  useEffect(() => {
+    const loadMLMetrics = async () => {
+      try {
+        const metrics = await apiService.getMLMetrics();
+        setIsConnectedToBackend(true);
+        
+        // Update learning metrics with real data
+        setLearningMetrics([
+          { label: 'Model Accuracy', value: `${metrics.performance.policy_accuracy.toFixed(1)}%`, change: '+2.1%', color: 'text-green-400' },
+          { label: 'Predictions Made', value: metrics.training_metrics.episodes.toString(), change: '+156', color: 'text-blue-400' },
+          { label: 'Success Rate', value: `${(metrics.training_metrics.win_rate * 100).toFixed(1)}%`, change: '+1.8%', color: 'text-green-400' },
+          { label: 'MCTS Simulations', value: `${Math.floor(metrics.performance.total_simulations / 1000)}K`, change: '+12K', color: 'text-purple-400' }
+        ]);
+      } catch (error) {
+        console.error('Error loading ML metrics:', error);
+        setIsConnectedToBackend(false);
+      }
+    };
+
+    loadMLMetrics();
+    
+    // Refresh metrics every 30 seconds
+    const interval = setInterval(loadMLMetrics, 30000);
+    return () => clearInterval(interval);
+  }, []);
   const models = [
     { id: 'trend-prediction', name: 'Trend Prediction', icon: TrendingUp },
     { id: 'pattern-recognition', name: 'Pattern Recognition', icon: Target },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Target, AlertTriangle, Zap, Play, Pause, Settings, CheckCircle, Clock } from 'lucide-react';
+import { apiService, TradingSignal } from '../services/api';
 
 interface TradingSignalsProps {
   selectedPair: string;
