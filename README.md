@@ -239,10 +239,10 @@ docker-compose up -d
 
 ## 📈 Roadmap
 
-- **Q1 2024**: Core platform launch with MCTS
-- **Q2 2024**: Advanced AI models and social trading
-- **Q3 2024**: Mobile app and additional brokers
-- **Q4 2024**: Enterprise features and API marketplace
+- **Q3 2025**: Core platform launch with MCTS
+- **Q4 2025**: Advanced AI models and social trading
+- **Q1 2026**: Mobile app and additional brokers
+- **Q2 2026**: Enterprise features and API marketplace
 
 ## 🏆 Why Choose Forex Analysis Pro?
 
@@ -262,4 +262,4 @@ docker-compose up -d
 
 ---
 
-**Built with ❤️ for professional forex traders who demand the best in AI-powered trading analysis.**
+**Built by Abidoye Abdulmujeeb Abiola (PLP Project) with ❤️ for professional forex traders who demand the best in AI-powered trading analysis.**
