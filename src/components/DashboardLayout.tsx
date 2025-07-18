@@ -25,7 +25,8 @@ export function DashboardLayout({
     refreshInterval: 5,
     soundAlerts: false,
     emailAlerts: true,
-    riskWarnings: true
+    riskWarnings: true,
+    demoMode: false
   });
 
   const notifications = [
@@ -159,7 +160,9 @@ export function DashboardLayout({
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span className="text-xs md:text-sm text-gray-400 hidden sm:block">Market Open</span>
+                <span className="text-xs md:text-sm text-gray-400 hidden sm:block">
+                  {settings.demoMode ? 'Demo Mode' : 'Live Trading'}
+                </span>
               </div>
             </div>
           </div>
@@ -234,6 +237,25 @@ export function DashboardLayout({
                   </div>
                 </div>
 
+                {/* Trading Settings */}
+                <div>
+                  <h4 className="text-white font-medium mb-3">Trading</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">Demo Mode</span>
+                      <button
+                        onClick={() => handleSettingChange('demoMode', !settings.demoMode)}
+                        className={`w-12 h-6 rounded-full transition-colors ${
+                          settings.demoMode ? 'bg-blue-600' : 'bg-gray-600'
+                        }`}
+                      >
+                        <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                          settings.demoMode ? 'translate-x-6' : 'translate-x-1'
+                        }`}></div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 {/* Data Settings */}
                 <div>
                   <h4 className="text-white font-medium mb-3">Data & Updates</h4>

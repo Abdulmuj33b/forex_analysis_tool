@@ -16,7 +16,7 @@ import { TradeAnalytics } from './components/TradeAnalytics';
 function App() {
   const [selectedPair, setSelectedPair] = useState('EUR/USD');
   const [activeTab, setActiveTab] = useState('overview');
-  const [selectedAssets, setSelectedAssets] = useState(['EUR/USD', 'GBP/USD', 'USD/JPY']);
+  const [selectedAssets, setSelectedAssets] = useState(['EUR/USD', 'GBP/USD', 'USD/JPY', 'XAU/USD', 'BTC/USD']);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -34,6 +34,18 @@ function App() {
                 selectedAssets={selectedAssets}
                 onAssetChange={setSelectedAssets}
               />
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">Active Pair</label>
+                <select
+                  value={selectedPair}
+                  onChange={(e) => setSelectedPair(e.target.value)}
+                  className="bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
+                >
+                  {selectedAssets.map((asset) => (
+                    <option key={asset} value={asset}>{asset}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             <MarketOverview selectedPair={selectedPair} />
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">

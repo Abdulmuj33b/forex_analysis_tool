@@ -22,6 +22,13 @@ export function AssetSelector({ selectedAssets, onAssetChange }: AssetSelectorPr
         'EUR/AUD', 'GBP/AUD', 'EUR/CAD', 'GBP/CAD', 'EUR/NZD', 'GBP/NZD'
       ]
     },
+    metals: {
+      name: 'Metals',
+      icon: TrendingUp,
+      assets: [
+        'XAU/USD', 'XAG/USD', 'XPD/USD', 'XPT/USD'
+      ]
+    },
     stocks: {
       name: 'Stocks',
       icon: TrendingUp,

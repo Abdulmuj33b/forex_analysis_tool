@@ -13,7 +13,15 @@ export function BrokerIntegration() {
     { id: 'fxcm', name: 'FXCM', logo: '💹', supported: true },
     { id: 'pepperstone', name: 'Pepperstone', logo: '🌶️', supported: true },
     { id: 'ic-markets', name: 'IC Markets', logo: '🔷', supported: true },
-    { id: 'forex-com', name: 'Forex.com', logo: '💰', supported: true }
+    { id: 'forex-com', name: 'Forex.com', logo: '💰', supported: true },
+    { id: 'etoro', name: 'eToro', logo: '🎯', supported: true },
+    { id: 'plus500', name: 'Plus500', logo: '➕', supported: true },
+    { id: 'avatrade', name: 'AvaTrade', logo: '🚀', supported: true },
+    { id: 'xm', name: 'XM Global', logo: '🌍', supported: true },
+    { id: 'hotforex', name: 'HotForex', logo: '🔥', supported: true },
+    { id: 'exness', name: 'Exness', logo: '⚡', supported: true },
+    { id: 'fbs', name: 'FBS', logo: '💎', supported: true },
+    { id: 'tickmill', name: 'Tickmill', logo: '⚙️', supported: true }
   ]);
 
   const [showConnectionForm, setShowConnectionForm] = useState(false);
@@ -202,12 +210,13 @@ export function BrokerIntegration() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Account ID / Login
+                  {selectedBroker === 'demo' ? 'Demo Account ID' : 'Account ID / Login'}
                 </label>
                 <input
                   type="text"
                   className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
-                  placeholder="Enter your account ID"
+                  placeholder={selectedBroker === 'demo' ? 'Demo account will be created' : 'Enter your account ID'}
+                  disabled={selectedBroker === 'demo'}
                 />
               </div>
               <div>
@@ -217,18 +226,20 @@ export function BrokerIntegration() {
                 <input
                   type="password"
                   className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
-                  placeholder="Enter your password"
+                  placeholder={selectedBroker === 'demo' ? 'Demo password will be generated' : 'Enter your password'}
+                  disabled={selectedBroker === 'demo'}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Server
+                  Account Type
                 </label>
-                <input
-                  type="text"
+                <select
                   className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
-                  placeholder="e.g., demo.server.com:443"
-                />
+                >
+                  <option value="demo">Demo Account</option>
+                  <option value="live">Live Account</option>
+                </select>
               </div>
             </div>
             <div className="flex justify-end space-x-3 mt-6">

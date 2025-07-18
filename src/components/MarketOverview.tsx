@@ -35,7 +35,10 @@ export function MarketOverview({ selectedPair }: MarketOverviewProps) {
     { pair: 'USD/JPY', price: 149.85, change: 0.45, changePercent: 0.30 },
     { pair: 'AUD/USD', price: 0.6521, change: 0.0008, changePercent: 0.12 },
     { pair: 'USD/CAD', price: 1.3712, change: -0.0023, changePercent: -0.17 },
-    { pair: 'NZD/USD', price: 0.5987, change: 0.0012, changePercent: 0.20 }
+    { pair: 'NZD/USD', price: 0.5987, change: 0.0012, changePercent: 0.20 },
+    { pair: 'XAU/USD', price: 2045.30, change: 12.50, changePercent: 0.61 },
+    { pair: 'XAG/USD', price: 24.85, change: -0.15, changePercent: -0.60 },
+    { pair: 'BTC/USD', price: 43250.00, change: 850.00, changePercent: 2.01 }
   ];
 
   const getTrendIcon = (change: number) => {

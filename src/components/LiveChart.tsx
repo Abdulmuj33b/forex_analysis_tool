@@ -34,6 +34,26 @@ export function LiveChart({ selectedPair }: LiveChartProps) {
     return data;
   });
 
+    // Update market status
+    setMarketStatus(() => {
+      const now = new Date();
+      const day = now.getDay();
+      const hour = now.getHours();
+      
+      if (day === 0 || day === 6) return 'closed';
+      if (hour < 6 || hour > 21) return 'closed';
+      return 'open';
+    });
+  const [marketStatus, setMarketStatus] = useState(() => {
+    const now = new Date();
+    const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+    const hour = now.getHours();
+    
+    // Forex market is closed on weekends and during certain hours
+    if (day === 0 || day === 6) return 'closed'; // Weekend
+    if (hour < 6 || hour > 21) return 'closed'; // Outside trading hours
+    return 'open';
+  });
   const [selectedTimeframe, setSelectedTimeframe] = useState('5m');
   const [showAnalysis, setShowAnalysis] = useState(true);
   const [analysisType, setAnalysisType] = useState('all');
@@ -194,23 +214,102 @@ export function LiveChart({ selectedPair }: LiveChartProps) {
 
       {/* Chart Area with Analysis Overlay */}
       <div className="bg-gray-900 rounded-lg p-4 mb-4 relative" style={{ height: '400px' }}>
-        {/* Main Chart Display */}
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <Activity className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-            <div className="text-gray-400 mb-2">Live Chart with Analysis</div>
-            <div className="text-2xl font-bold text-white mb-2">
+        {/* Candlestick Chart */}
+        <div className="w-full h-full relative">
+          <svg width="100%" height="100%" className="absolute inset-0">
+            {/* Chart Background */}
+            <rect width="100%" height="100%" fill="#111827" />
+            
+            {/* Grid Lines */}
+            {[...Array(10)].map((_, i) => (
+              <g key={i}>
+                <line
+                  x1="0"
+                  y1={`${(i + 1) * 10}%`}
+                  x2="100%"
+                  y2={`${(i + 1) * 10}%`}
+                  stroke="#374151"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1={`${(i + 1) * 10}%`}
+                  y1="0"
+                  x2={`${(i + 1) * 10}%`}
+                  y2="100%"
+                  stroke="#374151"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+              </g>
+            ))}
+            
+            {/* Candlesticks */}
+            {chartData.slice(-20).map((candle, index) => {
+              const x = (index / 19) * 90 + 5; // 5% margin
+              const maxPrice = Math.max(...chartData.slice(-20).map(c => c.high));
+              const minPrice = Math.min(...chartData.slice(-20).map(c => c.low));
+              const priceRange = maxPrice - minPrice;
+              
+              const yHigh = ((maxPrice - candle.high) / priceRange) * 80 + 10;
+              const yLow = ((maxPrice - candle.low) / priceRange) * 80 + 10;
+              const yOpen = ((maxPrice - candle.open) / priceRange) * 80 + 10;
+              const yClose = ((maxPrice - candle.close) / priceRange) * 80 + 10;
+              
+              const isGreen = candle.close > candle.open;
+              const bodyTop = Math.min(yOpen, yClose);
+              const bodyHeight = Math.abs(yOpen - yClose);
+              
+              return (
+                <g key={index}>
+                  {/* Wick */}
+                  <line
+                    x1={`${x}%`}
+                    y1={`${yHigh}%`}
+                    x2={`${x}%`}
+                    y2={`${yLow}%`}
+                    stroke={isGreen ? '#10b981' : '#ef4444'}
+                    strokeWidth="1"
+                  />
+                  {/* Body */}
+                  <rect
+                    x={`${x - 1}%`}
+                    y={`${bodyTop}%`}
+                    width="2%"
+                    height={`${bodyHeight}%`}
+                    fill={isGreen ? '#10b981' : '#ef4444'}
+                    stroke={isGreen ? '#10b981' : '#ef4444'}
+                  />
+                </g>
+              );
+            })}
+            
+            {/* Current Price Line */}
+            <line
+              x1="0"
+              y1="50%"
+              x2="100%"
+              y2="50%"
+              stroke="#3b82f6"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+            />
+          </svg>
+          
+          {/* Price Labels */}
+          <div className="absolute top-2 left-2 bg-gray-800 rounded px-2 py-1">
+            <div className="text-white text-sm font-bold">
               {currentPrice.toFixed(4)}
             </div>
-            <div className="flex items-center justify-center space-x-4 text-sm">
-              <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                <span className="text-gray-400">SMA 20: {indicators.sma20.toFixed(4)}</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
-                <span className="text-gray-400">SMA 50: {indicators.sma50.toFixed(4)}</span>
-              </div>
+            <div className="text-xs text-gray-400">{selectedPair}</div>
+          </div>
+          
+          {/* Market Status */}
+          <div className="absolute top-2 right-2 bg-gray-800 rounded px-2 py-1">
+            <div className={`text-xs font-medium ${
+              marketStatus === 'open' ? 'text-green-400' : 'text-red-400'
+            }`}>
+              Market {marketStatus === 'open' ? 'Open' : 'Closed'}
             </div>
           </div>
         </div>
@@ -383,6 +482,14 @@ export function LiveChart({ selectedPair }: LiveChartProps) {
               <span className="font-medium">Smart Money: {smartMoneyAnalysis.institutionalFlow.direction}</span>
             </div>
           )}
+          <div className={`flex items-center space-x-1 ${
+            marketStatus === 'open' ? 'text-green-400' : 'text-red-400'
+          }`}>
+            <div className={`w-2 h-2 rounded-full ${
+              marketStatus === 'open' ? 'bg-green-400' : 'bg-red-400'
+            }`}></div>
+            <span className="text-sm">Market {marketStatus === 'open' ? 'Open' : 'Closed'}</span>
+          </div>
         </div>
         <div className="text-gray-400">
           Volume: {(chartData[chartData.length - 1]?.volume / 1000000).toFixed(1)}M
