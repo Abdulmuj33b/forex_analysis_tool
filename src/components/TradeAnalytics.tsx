@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Brain, TrendingUp, TrendingDown, Target, AlertCircle, BarChart3, Zap } from 'lucide-react';
 import { apiService } from '../services/api';
 
-export function AILearning() {
+export function TradeAnalytics() {
   const [selectedModel, setSelectedModel] = useState('trend-prediction');
   const [isConnectedToBackend, setIsConnectedToBackend] = useState(false);
   const [learningMetrics, setLearningMetrics] = useState([
