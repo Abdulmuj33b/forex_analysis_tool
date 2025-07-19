@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Brain, TrendingUp, TrendingDown, Target, AlertCircle, BarChart3, Zap } from 'lucide-react';
 import { apiService } from '../services/api';
 
