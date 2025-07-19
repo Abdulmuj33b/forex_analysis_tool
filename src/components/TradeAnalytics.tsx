@@ -9,6 +9,7 @@ export function AILearning() {
     { label: 'Model Accuracy', value: '87.3%', change: '+2.1%', color: 'text-green-400' },
     { label: 'Predictions Made', value: '1,247', change: '+156', color: 'text-blue-400' },
     { label: 'Success Rate', value: '74.2%', change: '+1.8%', color: 'text-green-400' },
+  ]);
   const [analysisResults, setAnalysisResults] = useState({
     trendPrediction: {
       direction: 'Bullish',
@@ -63,7 +64,7 @@ export function AILearning() {
     { id: 'risk-assessment', name: 'Risk Assessment', icon: AlertCircle }
   ];
 
-  const learningMetrics = [
+  const executedTrades = [
     { label: 'Model Accuracy', value: '87.3%', change: '+2.1%', color: 'text-green-400' },
     { label: 'Predictions Made', value: '1,247', change: '+156', color: 'text-blue-400' },
     { label: 'Success Rate', value: '74.2%', change: '+1.8%', color: 'text-green-400' },
