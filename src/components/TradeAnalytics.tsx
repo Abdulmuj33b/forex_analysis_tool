@@ -47,8 +47,8 @@ export function TradeAnalytics() {
           { label: 'MCTS Simulations', value: `${Math.floor(metrics.performance.total_simulations / 1000)}K`, change: '+12K', color: 'text-purple-400' }
         ]);
       } catch (error) {
-        console.error('Error loading ML metrics:', error);
         setIsConnectedToBackend(false);
+        // Silently handle backend connection issues - use mock data
       }
     };
 
