@@ -28,7 +28,6 @@ class ApiService {
       
       return await response.json();
     } catch (error) {
-      console.error(`API request failed: ${endpoint}`, error);
       throw error;
     }
   }
