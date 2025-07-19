@@ -34,16 +34,6 @@ export function LiveChart({ selectedPair }: LiveChartProps) {
     return data;
   });
 
-    // Update market status
-    setMarketStatus(() => {
-      const now = new Date();
-      const day = now.getDay();
-      const hour = now.getHours();
-      
-      if (day === 0 || day === 6) return 'closed';
-      if (hour < 6 || hour > 21) return 'closed';
-      return 'open';
-    });
   const [marketStatus, setMarketStatus] = useState(() => {
     const now = new Date();
     const day = now.getDay(); // 0 = Sunday, 6 = Saturday
