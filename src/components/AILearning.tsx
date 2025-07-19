@@ -58,7 +58,8 @@ export function AILearning() {
           { label: 'MCTS Simulations', value: `${Math.floor((metrics.performance?.total_simulations || 89000) / 1000)}K`, change: '+12K', color: 'text-purple-400' }
         ]);
       } catch (error) {
-        console.error('Error loading ML metrics:', error);
+        // Fallback to mock data if backend is not available
+        setLearningMetrics({
         setIsConnectedToBackend(false);
       }
     };
