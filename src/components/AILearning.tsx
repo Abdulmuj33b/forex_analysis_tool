@@ -52,14 +52,33 @@ export function AILearning() {
         
         // Update learning metrics with real data
         setLearningMetrics([
-          { label: 'Model Accuracy', value: `${metrics.performance?.policy_accuracy?.toFixed(1) || '87.3'}%`, change: '+2.1%', color: 'text-green-400' },
-          { label: 'Predictions Made', value: metrics.training_metrics?.episodes?.toString() || '1,247', change: '+156', color: 'text-blue-400' },
-          { label: 'Success Rate', value: `${((metrics.training_metrics?.win_rate || 0.742) * 100).toFixed(1)}%`, change: '+1.8%', color: 'text-green-400' },
-          { label: 'MCTS Simulations', value: `${Math.floor((metrics.performance?.total_simulations || 89000) / 1000)}K`, change: '+12K', color: 'text-purple-400' }
+          { 
+            label: 'Model Accuracy', 
+            value: `${metrics.performance?.policy_accuracy?.toFixed(1) || '87.3'}%`, 
+            change: '+2.1%', 
+            color: 'text-green-400' 
+          },
+          { 
+            label: 'Predictions Made', 
+            value: metrics.training_metrics?.episodes?.toString() || '1,247', 
+            change: '+156', 
+            color: 'text-blue-400' 
+          },
+          { 
+            label: 'Success Rate', 
+            value: `${((metrics.training_metrics?.win_rate || 0.742) * 100).toFixed(1)}%`, 
+            change: '+1.8%', 
+            color: 'text-green-400' 
+          },
+          { 
+            label: 'MCTS Simulations', 
+            value: `${Math.floor((metrics.performance?.total_simulations || 89000) / 1000)}K`, 
+            change: '+12K', 
+            color: 'text-purple-400' 
+          }
         ]);
       } catch (error) {
-        // Fallback to mock data if backend is not available
-        setLearningMetrics({
+        console.error('Failed to load ML metrics:', error);
         setIsConnectedToBackend(false);
       }
     };
@@ -70,6 +89,7 @@ export function AILearning() {
     const interval = setInterval(loadMLMetrics, 30000);
     return () => clearInterval(interval);
   }, []);
+  
   const models = [
     { id: 'trend-prediction', name: 'Trend Prediction', icon: TrendingUp },
     { id: 'pattern-recognition', name: 'Pattern Recognition', icon: Target },
