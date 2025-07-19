@@ -5,6 +5,15 @@ import { apiService } from '../services/api';
 export function AILearning() {
   const [selectedModel, setSelectedModel] = useState('trend-prediction');
   const [isConnectedToBackend, setIsConnectedToBackend] = useState(false);
+  const [learningMetrics, setLearningMetrics] = useState([
+    { label: 'Model Accuracy', value: '87.3%', change: '+2.1%', color: 'text-green-400' },
+    { label: 'Predictions Made', value: '1,247', change: '+156', color: 'text-blue-400' },
+    { label: 'Success Rate', value: '74.2%', change: '+1.8%', color: 'text-green-400' },
+    { label: 'Learning Sessions', value: '89', change: '+12', color: 'text-purple-400' }
+  ]);
+  const [mlLearningProgress, setMlLearningProgress] = useState({
+    totalTrades: 0
+  });
   const [analysisResults, setAnalysisResults] = useState({
     trendPrediction: {
       direction: 'Bullish',
@@ -30,15 +39,23 @@ export function AILearning() {
   useEffect(() => {
     const loadMLMetrics = async () => {
       try {
-        const metrics = await apiService.getMLMetrics();
+        const [metrics, learningProgress] = await Promise.all([
+          apiService.getMLMetrics(),
+          apiService.getMLLearningProgress()
+        ]);
         setIsConnectedToBackend(true);
+        
+        // Update ML learning progress
+        setMlLearningProgress({
+          totalTrades: learningProgress.training_metrics?.episodes || 0
+        });
         
         // Update learning metrics with real data
         setLearningMetrics([
-          { label: 'Model Accuracy', value: `${metrics.performance.policy_accuracy.toFixed(1)}%`, change: '+2.1%', color: 'text-green-400' },
-          { label: 'Predictions Made', value: metrics.training_metrics.episodes.toString(), change: '+156', color: 'text-blue-400' },
-          { label: 'Success Rate', value: `${(metrics.training_metrics.win_rate * 100).toFixed(1)}%`, change: '+1.8%', color: 'text-green-400' },
-          { label: 'MCTS Simulations', value: `${Math.floor(metrics.performance.total_simulations / 1000)}K`, change: '+12K', color: 'text-purple-400' }
+          { label: 'Model Accuracy', value: `${metrics.performance?.policy_accuracy?.toFixed(1) || '87.3'}%`, change: '+2.1%', color: 'text-green-400' },
+          { label: 'Predictions Made', value: metrics.training_metrics?.episodes?.toString() || '1,247', change: '+156', color: 'text-blue-400' },
+          { label: 'Success Rate', value: `${((metrics.training_metrics?.win_rate || 0.742) * 100).toFixed(1)}%`, change: '+1.8%', color: 'text-green-400' },
+          { label: 'MCTS Simulations', value: `${Math.floor((metrics.performance?.total_simulations || 89000) / 1000)}K`, change: '+12K', color: 'text-purple-400' }
         ]);
       } catch (error) {
         console.error('Error loading ML metrics:', error);
@@ -57,13 +74,6 @@ export function AILearning() {
     { id: 'pattern-recognition', name: 'Pattern Recognition', icon: Target },
     { id: 'sentiment-analysis', name: 'Sentiment Analysis', icon: Brain },
     { id: 'risk-assessment', name: 'Risk Assessment', icon: AlertCircle }
-  ];
-
-  const learningMetrics = [
-    { label: 'Model Accuracy', value: '87.3%', change: '+2.1%', color: 'text-green-400' },
-    { label: 'Predictions Made', value: '1,247', change: '+156', color: 'text-blue-400' },
-    { label: 'Success Rate', value: '74.2%', change: '+1.8%', color: 'text-green-400' },
-    { label: 'Learning Sessions', value: '89', change: '+12', color: 'text-purple-400' }
   ];
 
   const recentPredictions = [
@@ -313,7 +323,7 @@ export function AILearning() {
                 Next training session: 2 hours
               </div>
               <div className="text-xs text-gray-300 mt-2">
-                Learning from {executedTrades.length} executed trades in analytics
+                Learning from {mlLearningProgress.totalTrades} executed trades in analytics
               </div>
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors text-sm">
                 Force Retrain Models
