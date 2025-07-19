@@ -30,6 +30,7 @@ export function AILearning() {
       bearish: 32
     }
   });
+  const [executedTrades, setExecutedTrades] = useState([]);
 
   // Check backend connection and load ML metrics
   useEffect(() => {
@@ -62,13 +63,6 @@ export function AILearning() {
     { id: 'pattern-recognition', name: 'Pattern Recognition', icon: Target },
     { id: 'sentiment-analysis', name: 'Sentiment Analysis', icon: Brain },
     { id: 'risk-assessment', name: 'Risk Assessment', icon: AlertCircle }
-  ];
-
-  const executedTrades = [
-    { label: 'Model Accuracy', value: '87.3%', change: '+2.1%', color: 'text-green-400' },
-    { label: 'Predictions Made', value: '1,247', change: '+156', color: 'text-blue-400' },
-    { label: 'Success Rate', value: '74.2%', change: '+1.8%', color: 'text-green-400' },
-    { label: 'Learning Sessions', value: '89', change: '+12', color: 'text-purple-400' }
   ];
 
   const recentPredictions = [
